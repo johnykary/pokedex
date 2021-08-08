@@ -17,20 +17,13 @@ import CardStats from "../components/CardStats";
 
 const screenWidth = Dimensions.get("window").width;
 
-const DetailsScreen = ({ navigation, route }) => {
+const DetailsScreen = ({ name}) => {
   const [details, setDetails] = useState(null);
-  const name = route.params.name
-  const types = route.params.types
-  const image = route.params.image
-
-  const mainType = types[0].type.name;
-  const colorType = TYPES_COLORS[mainType] || TYPES_COLORS["normal"];
-  const backgroundColor = rgb(colorType.r, colorType.g, colorType.b);
+  // const name = route.params.name;
 
   const getDetails = async () => {
     try {
       const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`);
-
       //Need to fetch evolution chain
       setDetails({
         id: res.data.id,
@@ -40,6 +33,8 @@ const DetailsScreen = ({ navigation, route }) => {
         evolution_chain: res.data.evolution_chain,
         height: res.data.height,
         weight: res.data.weight,
+        types: res.data.types,
+        image: res.data.sprites.other["official-artwork"].front_default,
       });
     } catch (e) {
       console.log(e);
@@ -60,6 +55,10 @@ const DetailsScreen = ({ navigation, route }) => {
     );
   }
 
+  const mainType = details.types[0].type.name;
+  const colorType = TYPES_COLORS[mainType] || TYPES_COLORS["normal"];
+  const backgroundColor = rgb(colorType.r, colorType.g, colorType.b);
+
   return (
     <>
       <View style={styles.scrollViewContainer}>
@@ -70,7 +69,7 @@ const DetailsScreen = ({ navigation, route }) => {
             <Image
               style={styles.image}
               source={{
-                uri: image,
+                uri: details.image,
               }}
             />
             <CardDetails
@@ -81,10 +80,10 @@ const DetailsScreen = ({ navigation, route }) => {
                 height: details.height,
                 weight: details.weight,
               }}
-              types={types}
+              types={details.types}
               style={{ flex: 2 }}
             />
-            <CardStats stats={details.stats}/>
+            <CardStats key={details.id + 1} stats={details.stats} />
           </View>
         </ScrollView>
       </View>
@@ -99,7 +98,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     flexGrow: 1,
     paddingTop: 20,
-    paddingBottom: 20
+    paddingBottom: 20,
   },
   scrollViewView: { flex: 1, alignItems: "center", justifyContent: "center" },
   image: {

@@ -73,14 +73,14 @@ const SearchScreen = ({ navigation }) => {
             <TouchableOpacity
               onPress={() =>
                 navigation.navigate({
-                  name: 'Details',
+                  name: 'DetailsTab',
                   params: { name: item.name, types: item.type, image: item.image},
                   merge: true,
                 })
               }
             >
               <PokemonCard
-                key={index}
+                key={item.name + index}
                 name={item.name}
                 types={item.type}
                 image={item.image}
