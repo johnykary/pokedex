@@ -22,7 +22,7 @@ const SearchScreen = ({ navigation }) => {
         `https://pokeapi.co/api/v2/pokemon?limit=151`
       );
       if (res) {
-        data = res.data.results; 
+        data = res.data.results;
         const d = [];
         for (let i = 0; i < data.length; i++) {
           const res = await axios.get(data[i].url);
@@ -30,6 +30,7 @@ const SearchScreen = ({ navigation }) => {
             name: res.data.species.name,
             type: res.data.types,
             url: res.data.species.url,
+            image: res.data.sprites.other["official-artwork"].front_default,
           };
           d.push(pokemon);
         }
@@ -65,18 +66,24 @@ const SearchScreen = ({ navigation }) => {
       <FlatList
         style={styles.container}
         data={pokemons}
-        keyExtractor={(result,index) => result.name + index}
+        keyExtractor={(result, index) => result.name + index}
         numColumns={2}
         renderItem={({ item, index }) => {
           return (
             <TouchableOpacity
-              onPress={
-                (() => navigation.navigate("DetailsShow", { name: item.name, types: item.type }))
+              onPress={() =>
+                navigation.navigate({
+                  name: 'Details',
+                  params: { name: item.name, types: item.type, image: item.image},
+                  merge: true,
+                })
               }
             >
               <PokemonCard
+                key={index}
                 name={item.name}
                 types={item.type}
+                image={item.image}
                 index={index + 1}
               />
             </TouchableOpacity>

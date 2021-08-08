@@ -52,6 +52,7 @@ const CardDetails = ({ details, types }) => {
 
 const styles = StyleSheet.create({
   cardContainer: {
+    borderRadius: 20,
     width: "80%",
     height: 250,
     justifyContent: "flex-start",

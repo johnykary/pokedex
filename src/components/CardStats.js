@@ -13,7 +13,6 @@ const CardStats = ({ stats }) => {
       return "rgb(22, 245, 26)";
     }
   };
-  console.log(stats);
   return (
     <Card containerStyle={styles.cardContainer}>
       <Card.Title style={styles.cardTitle}>STATS</Card.Title>
@@ -48,6 +47,7 @@ const CardStats = ({ stats }) => {
 
 const styles = StyleSheet.create({
   cardContainer: {
+    borderRadius: 20,
     width: "80%",
     height: 250,
     justifyContent: "flex-start",

@@ -4,7 +4,7 @@ import { Card  } from "react-native-elements";
 import { color } from "react-native-elements/dist/helpers";
 import { rgb, TYPES_COLORS } from "../tools/colors";
 
-const PokemonCard = ({ name, types, index }) => {
+const PokemonCard = ({ name, types, image, index }) => {
   const mainType = types[0].type.name;
   const colorType = TYPES_COLORS[mainType] || TYPES_COLORS["normal"]
   const backgroundColor = rgb(colorType.r, colorType.g, colorType.b)
@@ -17,7 +17,7 @@ const PokemonCard = ({ name, types, index }) => {
             style={styles.image}
             resizeMode="contain"
             source={{
-              uri: `https://pokeres.bastionbot.org/images/pokemon/${index}.png`,
+              uri: image,
             }}
           />
           <View style={styles.textTypeContainer}>

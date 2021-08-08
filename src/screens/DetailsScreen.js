@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { NavigationContainer } from "@react-navigation/native";
 import {
   View,
   Text,
@@ -16,10 +17,11 @@ import CardStats from "../components/CardStats";
 
 const screenWidth = Dimensions.get("window").width;
 
-const DetailsScreen = ({ navigation }) => {
+const DetailsScreen = ({ navigation, route }) => {
   const [details, setDetails] = useState(null);
-  const name = navigation.getParam("name");
-  const types = navigation.getParam("types");
+  const name = route.params.name
+  const types = route.params.types
+  const image = route.params.image
 
   const mainType = types[0].type.name;
   const colorType = TYPES_COLORS[mainType] || TYPES_COLORS["normal"];
@@ -68,7 +70,7 @@ const DetailsScreen = ({ navigation }) => {
             <Image
               style={styles.image}
               source={{
-                uri: `https://pokeres.bastionbot.org/images/pokemon/${details.id}.png`,
+                uri: image,
               }}
             />
             <CardDetails
@@ -96,7 +98,8 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flexGrow: 1,
-    paddingTop: 20
+    paddingTop: 20,
+    paddingBottom: 20
   },
   scrollViewView: { flex: 1, alignItems: "center", justifyContent: "center" },
   image: {
